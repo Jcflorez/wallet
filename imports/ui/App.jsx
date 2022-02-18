@@ -1,7 +1,6 @@
 import React from 'react';
 import {ContactForm} from './ContactForm';
 import { ContactList } from './ContactList';
-import { Footer } from './Footer';
 import { Header } from './Header';
 
 export const App = () => (
@@ -11,7 +10,6 @@ export const App = () => (
       <div className="max-w-4xl mx-auto p-2">
         <ContactForm />
         <ContactList />
-        <Footer />
       </div>
     </div>
   </div>

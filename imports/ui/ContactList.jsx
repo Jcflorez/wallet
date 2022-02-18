@@ -1,6 +1,7 @@
 import React from "react";
 import { contactsCollections } from "../api/contactsCollections";
 import { useTracker } from 'meteor/react-meteor-data';
+import { Meteor } from "meteor/meteor";
 /* export const ContactList = () => {
 
     const contacts = useTracker(() => {
@@ -23,8 +24,14 @@ import { useTracker } from 'meteor/react-meteor-data';
   
   export const ContactList = () => {
     const people = useTracker(() => {
-        return contactsCollections.find({}).fetch();
-    })  
+        return contactsCollections.find({}, {sort:{createdAt: -1}}).fetch();
+    });  
+
+    const removeContact = (event, _id) => {
+      event.preventDefault();
+      console.info("Borrando en List id_: ", _id);
+      Meteor.call('contacts.remove', {contactId : _id} );
+    }
     return (
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -43,22 +50,7 @@ import { useTracker } from 'meteor/react-meteor-data';
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Title
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
                       Status
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      Role
-                    </th>
-                    <th scope="col" className="relative px-6 py-3">
-                      <span className="sr-only">Edit</span>
                     </th>
                   </tr>
                 </thead>
@@ -77,18 +69,31 @@ import { useTracker } from 'meteor/react-meteor-data';
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{person.title}</div>
-                        <div className="text-sm text-gray-500">{person.department}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                           Active
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{person.role}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                          Edit
+
+                        <a 
+                          href="#" 
+                          onClick={(event) => removeContact(event, person._id)}
+                          className="
+                                      inline-flex 
+                                      items-center 
+                                      shadow-sm px-2 
+                                      py-0 border 
+                                      border-gray-300 
+                                      text-xs 
+                                      leading-5 
+                                      font-medium 
+                                      rounded-full 
+                                      text-gray-100 
+                                      bg-red-500 
+                                      hover:bg-gray-50
+                                      ">
+                          Elimina
                         </a>
                       </td>
                     </tr>

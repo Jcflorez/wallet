@@ -1,3 +1,5 @@
+// para listar en forma de tarjeta
+//https://tailwindcss.com/docs/utility-first
 import React from 'react';
 
 export const Footer = () => {
