@@ -25,6 +25,7 @@ export const ContactForm = () =>{
         Meteor.call('contacts.insert', {name, email, imageUrl}, (errorResponse) => {
           errorResponse?console.log(errorResponse.error):console.info("Campo Nombre correcto");
           if(errorResponse){
+            console.info("Error en name:", errorResponse)
             setError(errorResponse.error);
             setTimeout( () => {
               setError("");
