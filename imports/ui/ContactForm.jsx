@@ -23,6 +23,7 @@ export const ContactForm = () =>{
     const saveContact = () => {
         //console.info("Revisando Variables:", name, email, imageUrl);
         Meteor.call('contacts.insert', {name, email, imageUrl}, (errorResponse) => {
+          console.info("Revisando Variables:", errorResponse);
           errorResponse?console.log(errorResponse.error):console.info("Campo Nombre correcto");
           if(errorResponse){
             console.info("Error en name:", errorResponse)

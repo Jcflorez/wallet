@@ -25,16 +25,16 @@ import { Meteor } from "meteor/meteor";
   export const ContactList = () => {
     const isLoading = useSubscribe('allContacts');
     isLoading?console.info('Loading ....'):console.info('Present the Data ....');
-    const contacts = useFind(()=> contactsCollections.find({}, {sort:{createdAt: -1}}))
+    const contacts = useFind(()=> contactsCollections.find({ archived : { $ne : true }}, { sort :{ createdAt: -1}}))
 
     /* const contacts = useTracker(() => {
         return contactsCollections.find({}, {sort:{createdAt: -1}}).fetch();
     });   */
 
-    const removeContact = (event, _id) => {
+    const archivedContact = (event, _id) => {
       event.preventDefault();
-      console.info("Borrando en List id_: ", _id);
-      Meteor.call('contacts.remove', {contactId : _id} );
+      console.info("Actualizando en List id_: ", _id);
+      Meteor.call('contacts.archived', {contactId : _id} );
     }
 
     if(isLoading()){
@@ -85,7 +85,7 @@ import { Meteor } from "meteor/meteor";
           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <a 
               href="#" 
-              onClick={(event) => removeContact(event, contact._id)}
+              onClick={(event) => archivedContact(event, contact._id)}
               className="
                           inline-flex 
                           items-center 
@@ -100,7 +100,7 @@ import { Meteor } from "meteor/meteor";
                           bg-red-500 
                           hover:bg-blue-500
                           ">
-              Elimina
+              Archiva
             </a>
           </td>
         </tr>

@@ -8,6 +8,7 @@ Meteor.methods({
         check(name, String);
         check(email, String);
         check(imageUrl, String);
+        //console.log("Error: ", Math.Error)
         
         if(!name) {
             throw new Meteor.Error("El campo Nombre ees requerido");
@@ -22,5 +23,10 @@ Meteor.methods({
         console.info("Borrando En Methodo _id: ",contactId);
         check(contactId, String);
         contactsCollections.remove(contactId);
+    },
+    'contacts.archived'({contactId}){
+        check(contactId, String);
+        console.log('Archived Contact: ', contactId)
+        contactsCollections.update({ _id : contactId }, { $set: { archived: true }});
     }
 });
